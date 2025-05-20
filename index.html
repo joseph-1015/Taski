@@ -1,0 +1,140 @@
+<!-- ✅ Redirect to login if not logged in -->
+<script>
+  if (localStorage.getItem("isLoggedIn") !== "true") {
+    window.location.href = "login.html";
+  }
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tasky - Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">📋 Tasky</div>
+      <nav>
+        <ul>
+          <li class="active">Dashboard</li>
+          <li>Tasks</li>
+          <li>Calendar</li>
+          <li>Members</li>
+          <li>Staff</li>
+          <li>Payment</li>
+        </ul>
+      </nav>
+      <div class="upgrade">
+        <button>🚀 Upgrade to pro</button>
+      </div>
+    </aside>
+
+    <!-- Main Area -->
+    <main>
+      <header class="topbar">
+        <div class="topbar-row">
+          <input type="text" id="searchInput" placeholder="Search by title..." class="search-input" />
+          <div class="topbar-right">
+            <button class="add-task-btn">+ Add Task</button>
+            <button class="btn" id="exportBtn">📤 Export</button>
+            <input type="file" id="importInput" style="display: none;" />
+            <button class="btn" id="importBtn">📥 Import</button>
+            <button class="btn" onclick="logout()">Logout</button>
+          </div>
+        </div>
+
+        <div class="filter-row">
+          <button class="btn" id="previewBtn">Preview</button>
+          <button class="btn" id="sortPriorityBtn">Sort: Priority</button>
+          <button class="btn" id="sortDateBtn">Sort: Due Date</button>
+          <button class="btn" id="filterBtn">Filter: All</button>
+        </div>
+
+        <!-- ✅ Welcome user display -->
+        <div class="welcome-user" id="welcomeUser" style="margin-top: 10px; font-weight: 500; color: #333;">
+          <!-- Populated via JS -->
+        </div>
+      </header>
+
+      <!-- Task Columns -->
+      <section class="task-board">
+        <!-- In Progress -->
+        <div class="column">
+          <h3>In Progress<span>(<span id="count-inprogress">0</span>)</span></h3>
+          <div id="inprogress-list" class="task-list"></div>
+        </div>
+
+        <!-- Completed Task -->
+        <div class="column">
+          <h3>Completed Task<span>(<span id="count-completed">0</span>)</span></h3>
+          <div id="completed-list" class="task-list"></div>
+        </div>
+
+        <!-- Over-Due -->
+        <div class="column">
+          <h3>Over-Due<span>(<span id="count-overdue">0</span>)</span></h3>
+          <div id="overdue-list" class="task-list"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Add Task Modal -->
+  <div id="taskModal" class="modal">
+    <div class="modal-content">
+      <h2>Add New Task</h2>
+      <form id="taskForm">
+        <input type="hidden" id="taskId" />
+        <input type="text" id="taskTitle" placeholder="Task title" required />
+        <textarea id="taskDescription" placeholder="Description"></textarea>
+        <select id="taskPriority">
+          <option value="High">High Priority</option>
+          <option value="Medium" selected>Medium Priority</option>
+          <option value="Low">Low Priority</option>
+        </select>
+        <input type="date" id="taskDueDate" required />
+        <input type="text" id="taskCategory" placeholder="Category (e.g., Design)" />
+        <label>Assign Members:</label>
+        <select id="taskMembers" multiple>
+          <option value="1">👩‍💻 Alice</option>
+          <option value="2">👨‍🔧 Bob</option>
+          <option value="3">👩‍🎨 Carol</option>
+          <option value="4">👨‍💼 Dan</option>
+        </select>
+        <button type="submit">Save Task</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Task Detail Modal -->
+  <div id="taskDetailModal" class="modal">
+    <div class="modal-content" id="taskDetailContent">
+      <!-- Filled dynamically -->
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // ✅ Populate welcome message
+    document.addEventListener("DOMContentLoaded", () => {
+      const users = JSON.parse(localStorage.getItem("taskyUsers")) || [];
+      const latestUser = users[users.length - 1];
+      const welcomeEl = document.getElementById("welcomeUser");
+      if (latestUser && welcomeEl) {
+        welcomeEl.textContent = `👋 Welcome back, ${latestUser.username}!`;
+      }
+    });
+
+    // ✅ Logout function
+    function logout() {
+      localStorage.setItem("isLoggedIn", "false");
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up | Tasky</title>
+
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .heading {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 30px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    label {
+      font-size: 14px;
+      margin-bottom: 6px;
+      display: block;
+      color: #334155;
+    }
+
+    input {
+      padding: 12px;
+      margin-bottom: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      width: 100%;
+      outline-color: #3b82f6;
+    }
+
+    .sign-up-btn {
+      padding: 12px;
+      background: #0066ff;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      margin-bottom: 14px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s;
+    }
+
+    .sign-up-btn:hover {
+      background: #0051cc;
+    }
+
+    .or-line {
+      text-align: center;
+      margin: 14px 0;
+      color: #0339ac;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .signup-line {
+      text-align: center;
+      margin-bottom: 14px;
+      font-size: 14px;
+      color: #475569;
+    }
+
+    .signup-line a {
+      color: #3b82f6;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .social-btn {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .social-btn .icon {
+      height: 20px;
+      width: 20px;
+    }
+
+    .google {
+      background: #fff;
+      border: 1px solid #ccc;
+      color: #333;
+    }
+
+    .facebook {
+      background: #1877f2;
+      color: white;
+    }
+
+    .apple {
+      background: #000;
+      color: white;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 0 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <script>
+    const container = document.createElement('div');
+    container.className = 'container';
+
+    const heading = document.createElement('div');
+    heading.className = 'heading';
+    heading.textContent = 'Create your Tasky account';
+
+    const form = document.createElement('form');
+
+    const usernameLabel = document.createElement('label');
+    usernameLabel.setAttribute('for', 'username');
+    usernameLabel.textContent = 'Username';
+
+    const usernameInput = document.createElement('input');
+    usernameInput.type = 'text';
+    usernameInput.id = 'username';
+    usernameInput.placeholder = 'jojo123';
+
+    const emailLabel = document.createElement('label');
+    emailLabel.setAttribute('for', 'email');
+    emailLabel.textContent = 'Email';
+
+    const emailInput = document.createElement('input');
+    emailInput.type = 'email';
+    emailInput.id = 'email';
+    emailInput.placeholder = 'jojo@example.com';
+
+    const passwordLabel = document.createElement('label');
+    passwordLabel.setAttribute('for', 'password');
+    passwordLabel.textContent = 'Password';
+
+    const passwordInput = document.createElement('input');
+    passwordInput.type = 'password';
+    passwordInput.id = 'password';
+    passwordInput.placeholder = '************';
+
+    const confirmLabel = document.createElement('label');
+    confirmLabel.setAttribute('for', 'confirm');
+    confirmLabel.textContent = 'Confirm Password';
+
+    const confirmInput = document.createElement('input');
+    confirmInput.type = 'password';
+    confirmInput.id = 'confirm';
+    confirmInput.placeholder = '************';
+
+    const signUpBtn = document.createElement('button');
+    signUpBtn.className = 'sign-up-btn';
+    signUpBtn.type = 'button';
+    signUpBtn.textContent = 'Sign Up';
+
+    signUpBtn.onclick = () => {
+      const username = document.getElementById('username').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirm').value;
+
+      if (!username || !email || !password || !confirm) {
+        alert('⚠️ Please fill in all fields.');
+        return;
+      }
+
+      if (password !== confirm) {
+        alert('❌ Passwords do not match.');
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem('taskyUsers')) || [];
+      const exists = users.find(user => user.email === email);
+      if (exists) {
+        alert('❌ Email already registered. Try logging in.');
+        return;
+      }
+
+      users.push({ username, email, password });
+      localStorage.setItem('taskyUsers', JSON.stringify(users));
+
+      alert(`✅ Account created successfully for ${username}!`);
+      window.location.href = 'login.html';
+    };
+
+    const orLine = document.createElement('div');
+    orLine.className = 'or-line';
+    orLine.textContent = 'OR';
+
+    const signinLine = document.createElement('div');
+    signinLine.className = 'signup-line';
+    signinLine.innerHTML = `Already have an account? <a href="login.html">Sign in</a>`;
+
+    const googleBtn = document.createElement('button');
+    googleBtn.className = 'social-btn google';
+    googleBtn.innerHTML = `<img src="google.png" alt="Google" class="icon"> Sign up with Google`;
+
+    const facebookBtn = document.createElement('button');
+    facebookBtn.className = 'social-btn facebook';
+    facebookBtn.innerHTML = `<img src="facebook.png" alt="Facebook" class="icon"> Sign up with Facebook`;
+
+    const appleBtn = document.createElement('button');
+    appleBtn.className = 'social-btn apple';
+    appleBtn.innerHTML = `<img src="apple.png" alt="Apple" class="icon"> Sign up with Apple`;
+
+    form.append(
+      usernameLabel,
+      usernameInput,
+      emailLabel,
+      emailInput,
+      passwordLabel,
+      passwordInput,
+      confirmLabel,
+      confirmInput,
+      signUpBtn,
+      orLine,
+      signinLine,
+      googleBtn,
+      facebookBtn,
+      appleBtn
+    );
+
+    container.append(heading, form);
+    document.body.appendChild(container);
+  </script>
+</body>
+</html>

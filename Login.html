@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tasky Login</title>
+
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: transparent;
+      box-shadow: none;
+      border-radius: 0;
+    }
+
+    .heading {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 30px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    label {
+      font-size: 14px;
+      margin-bottom: 6px;
+      display: block;
+      color: #334155;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      padding: 12px;
+      margin-bottom: 14px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-size: 15px;
+      width: 100%;
+      outline-color: #3b82f6;
+    }
+
+    .sign-in-btn {
+      padding: 12px;
+      background: #3b82f6;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s;
+    }
+
+    .sign-in-btn:hover {
+      background: #2563eb;
+    }
+
+    .or-line {
+      text-align: center;
+      margin: 14px 0;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .signup-line {
+      text-align: center;
+      margin-bottom: 14px;
+      font-size: 14px;
+      color: #475569;
+    }
+
+    .signup-line a {
+      color: #3b82f6;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .social-btn {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .social-btn .icon {
+      height: 20px;
+      width: 20px;
+    }
+
+    .google {
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      color: #111;
+    }
+
+    .facebook {
+      background: #1877f2;
+      color: white;
+    }
+
+    .apple {
+      background: #111;
+      color: white;
+    }
+
+    small {
+      display: block;
+      color: #64748b;
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .remember-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      margin-bottom: 14px;
+    }
+
+    .remember-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: #334155;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 0 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <script>
+    const container = document.createElement('div');
+    container.className = 'container';
+
+    const heading = document.createElement('div');
+    heading.className = 'heading';
+    heading.textContent = 'Welcome to Tasky. Sign in to continue.';
+
+    const form = document.createElement('form');
+
+    const emailLabel = document.createElement('label');
+    emailLabel.setAttribute('for', 'email');
+    emailLabel.textContent = 'Email';
+
+    const emailInput = document.createElement('input');
+    emailInput.type = 'email';
+    emailInput.id = 'email';
+    emailInput.placeholder = 'you@example.com';
+
+    const passwordLabel = document.createElement('label');
+    passwordLabel.setAttribute('for', 'password');
+    passwordLabel.textContent = 'Password';
+
+    const passwordInput = document.createElement('input');
+    passwordInput.type = 'password';
+    passwordInput.id = 'password';
+    passwordInput.placeholder = '************';
+
+    const rememberWrapper = document.createElement('div');
+    rememberWrapper.className = 'remember-wrapper';
+
+    const rememberLine = document.createElement('div');
+    rememberLine.className = 'remember-line';
+
+    const rememberCheckbox = document.createElement('input');
+    rememberCheckbox.type = 'checkbox';
+    rememberCheckbox.id = 'remember';
+
+    const rememberLabel = document.createElement('label');
+    rememberLabel.setAttribute('for', 'remember');
+    rememberLabel.textContent = 'Remember me';
+
+    rememberLine.append(rememberCheckbox, rememberLabel);
+
+    const rememberNote = document.createElement('small');
+    rememberNote.textContent = 'Save my login details for next time.';
+
+    rememberWrapper.append(rememberLine, rememberNote);
+
+    const signInBtn = document.createElement('button');
+    signInBtn.className = 'sign-in-btn';
+    signInBtn.type = 'button';
+    signInBtn.textContent = 'Sign In';
+
+    signInBtn.onclick = () => {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      const users = JSON.parse(localStorage.getItem('taskyUsers')) || [];
+      const match = users.find(user => user.email === email && user.password === password);
+
+      if (match) {
+        localStorage.setItem('isLoggedIn', 'true');
+        alert(`✅ Welcome back, ${match.username}!`);
+        window.location.href = 'index.html';
+      } else {
+        alert('❌ Invalid email or password. Try again or sign up.');
+      }
+    };
+
+    const orLine = document.createElement('div');
+    orLine.className = 'or-line';
+    orLine.textContent = 'OR';
+
+    const signupLine = document.createElement('div');
+    signupLine.className = 'signup-line';
+    signupLine.innerHTML = `Don't have an account? <a href="signup.html">Sign up</a>`;
+
+    const googleBtn = document.createElement('button');
+    googleBtn.className = 'social-btn google';
+    googleBtn.innerHTML = `<img src="google.png" alt="Google" class="icon"> Sign in with Google`;
+
+    const facebookBtn = document.createElement('button');
+    facebookBtn.className = 'social-btn facebook';
+    facebookBtn.innerHTML = `<img src="facebook.png" alt="Facebook" class="icon"> Sign in with Facebook`;
+
+    const appleBtn = document.createElement('button');
+    appleBtn.className = 'social-btn apple';
+    appleBtn.innerHTML = `<img src="apple.png" alt="Apple" class="icon"> Sign in with Apple`;
+
+    form.append(
+      emailLabel,
+      emailInput,
+      passwordLabel,
+      passwordInput,
+      rememberWrapper,
+      signInBtn,
+      orLine,
+      signupLine,
+      googleBtn,
+      facebookBtn,
+      appleBtn
+    );
+
+    container.append(heading, form);
+    document.body.appendChild(container);
+  </script>
+</body>
+</html>
