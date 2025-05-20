@@ -55,35 +55,28 @@
         </div>
 
         <!-- ✅ Welcome user display -->
-        <div class="welcome-user" id="welcomeUser" style="margin-top: 10px; font-weight: 500; color: #333;">
-          <!-- Populated via JS -->
-        </div>
+        <div class="welcome-user" id="welcomeUser" style="margin-top: 10px; font-weight: 500; color: #333;"></div>
       </header>
 
       <!-- Task Columns -->
       <section class="task-board">
-        <!-- In Progress -->
         <div class="column">
-          <h3>In Progress<span>(<span id="count-inprogress">0</span>)</span></h3>
+          <h3>In Progress <span>(<span id="count-inprogress">0</span>)</span></h3>
           <div id="inprogress-list" class="task-list"></div>
         </div>
-
-        <!-- Completed Task -->
         <div class="column">
-          <h3>Completed Task<span>(<span id="count-completed">0</span>)</span></h3>
+          <h3>Completed Task <span>(<span id="count-completed">0</span>)</span></h3>
           <div id="completed-list" class="task-list"></div>
         </div>
-
-        <!-- Over-Due -->
         <div class="column">
-          <h3>Over-Due<span>(<span id="count-overdue">0</span>)</span></h3>
+          <h3>Over-Due <span>(<span id="count-overdue">0</span>)</span></h3>
           <div id="overdue-list" class="task-list"></div>
         </div>
       </section>
     </main>
   </div>
 
-  <!-- Add Task Modal -->
+  <!-- Modals -->
   <div id="taskModal" class="modal">
     <div class="modal-content">
       <h2>Add New Task</h2>
@@ -110,7 +103,6 @@
     </div>
   </div>
 
-  <!-- Task Detail Modal -->
   <div id="taskDetailModal" class="modal">
     <div class="modal-content" id="taskDetailContent">
       <!-- Filled dynamically -->
@@ -119,19 +111,19 @@
 
   <script src="script.js"></script>
   <script>
-    // ✅ Populate welcome message
+    // ✅ Show current user's name
     document.addEventListener("DOMContentLoaded", () => {
-      const users = JSON.parse(localStorage.getItem("taskyUsers")) || [];
-      const latestUser = users[users.length - 1];
+      const user = JSON.parse(localStorage.getItem("currentUser"));
       const welcomeEl = document.getElementById("welcomeUser");
-      if (latestUser && welcomeEl) {
-        welcomeEl.textContent = `👋 Welcome back, ${latestUser.username}!`;
+      if (user && welcomeEl) {
+        welcomeEl.textContent = `👋 Welcome back, ${user.username}!`;
       }
     });
 
-    // ✅ Logout function
+    // ✅ Logout
     function logout() {
       localStorage.setItem("isLoggedIn", "false");
+      localStorage.removeItem("currentUser");
       window.location.href = "login.html";
     }
   </script>
